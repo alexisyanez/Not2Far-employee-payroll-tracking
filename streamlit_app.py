@@ -6,10 +6,11 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
+# Load the existing DataFrame from the JSON file
 df = pd.read_json('Data_base.json')
 st.session_state.df = df
 
-# Show app title and description.
+# Show app title and description
 st.set_page_config(page_title="Employee Payroll Tracking", page_icon="💵")
 st.title("💵 Employee Payroll Tracking")
 st.write(
@@ -20,21 +21,16 @@ st.write(
     """
 )
 
-# Create a random Pandas dataframe with existing tickets.
-
+# Create a random Pandas DataFrame with existing tickets
 if "df" not in st.session_state:
-
-    # Set seed for reproducibility.
+    # Set seed for reproducibility
     np.random.seed(42)
 
-    # Make up some fake issue descriptions.
-    names=[]
-    for i in range(0,20):
-        names.append("Employee "+str(i))
-        
-    issue_descriptions = names  
+    # Make up some fake issue descriptions
+    names = [f"Employee {i}" for i in range(20)]
+    issue_descriptions = names
 
-    # Generate the dataframe with 5 rows/tickets.
+    # Generate the DataFrame with 5 rows/tickets
     data = {
         "ID": [f"Payroll-{i}" for i in range(1100, 1095, -1)],
         "Employee": np.random.choice(issue_descriptions, size=5),
@@ -45,40 +41,37 @@ if "df" not in st.session_state:
         "Date Submitted": [
             datetime.date(2023, 6, 1) + datetime.timedelta(days=random.randint(0, 182))
             for _ in range(5)
-            ],
-        }
+        ],
+    }
     df = pd.DataFrame(data)
-    # Save the dataframe in session state (a dictionary-like object that persists across
+    # Save the DataFrame in session state (a dictionary-like object that persists across
     # page runs). This ensures our data is persisted when the app updates.
     st.session_state.df = df
     st.session_state.df.to_json('Data_base.json')
-    
 
-
-# Show a section to add a new ticket.
-st.header("Add a employee and worked hours")
+# Show a section to add a new ticket
+st.header("Add an employee and worked hours")
 
 # We're adding tickets via an `st.form` and some input widgets. If widgets are used
 # in a form, the app will only rerun once the submit button is pressed.
 with st.form("add_ticket_form"):
     issue = st.text_area("First Name and Last Name format")
     dpto = st.selectbox("Department", ["Production", "Assembly", "Transportation", "Marketing", "Managment"])
-    rates = list(range(1,101))
-    rate = st.selectbox(" Hour Rate US$", rates)
-    hours = st.selectbox("Worked Hours", list(range(1,11)))
-
+    rates = list(range(1, 101))
+    rate = st.selectbox("Hour Rate US$", rates)
+    hours = st.selectbox("Worked Hours", list(range(1, 11)))
 
     submitted = st.form_submit_button("Submit")
 
 if submitted:
-    # Make a dataframe for the new ticket and append it to the dataframe in session
+    # Make a DataFrame for the new ticket and append it to the DataFrame in session
     # state.
     recent_ticket_number = int(max(st.session_state.df.ID).split("-")[1])
-    today = datetime.datetime.now().strftime("%m-%d-%Y")
+    today = datetime.datetime.now().strftime("%Y-%m-%d")
     df_new = pd.DataFrame(
         [
             {
-                "ID": f"Payrrol-{recent_ticket_number+1}",
+                "ID": f"Payroll-{recent_ticket_number + 1}",
                 "Employee": issue,
                 "Status": "Unpaid",
                 "Department": dpto,
@@ -89,26 +82,24 @@ if submitted:
         ]
     )
 
-    # Show a little success message.
-    st.write("Employee Submitted submitted! Here are the ticket details:")
+    # Show a little success message
+    st.write("Employee Submitted! Here are the ticket details:")
     st.dataframe(df_new, use_container_width=True, hide_index=True)
     st.session_state.df = pd.concat([df_new, st.session_state.df], axis=0)
     st.session_state.df.to_json('Data_base.json')
 
-    
-
-# Show section to view and edit existing tickets in a table.
+# Show section to view and edit existing tickets in a table
 st.header("Existing payrolls")
 st.write(f"Number of payrolls: `{len(st.session_state.df)}`")
 
 st.info(
-    "You can edit the payrolls by double clicking on a cell. Note how the plots below "
+    "You can edit the payrolls by double-clicking on a cell. Note how the plots below "
     "update automatically! You can also sort the table by clicking on the column headers.",
     icon="✍️",
 )
 
-# Show the tickets dataframe with `st.data_editor`. This lets the user edit the table
-# cells. The edited data is returned as a new dataframe.
+# Show the tickets DataFrame with `st.data_editor`. This lets the user edit the table
+# cells. The edited data is returned as a new DataFrame.
 edited_df = st.data_editor(
     st.session_state.df,
     use_container_width=True,
@@ -129,25 +120,25 @@ edited_df = st.data_editor(
         "Hour Rate": st.column_config.SelectboxColumn(
             "Hour Rate",
             help="Hour Rate",
-            options= list(range(1,101)), #["Production", "Assembly", "Transportation", "Marketing", "Managment"],
+            options=list(range(1, 101)),
             required=True,
         ),
     },
-    # Disable editing the ID and Date Submitted columns.
+    # Disable editing the ID and Date Submitted columns
     disabled=["ID", "Date Submitted"],
 )
 
-# Show some metrics and charts about the ticket.
+# Show some metrics and charts about the tickets
 st.header("Statistics")
 
-# Show metrics side by side using `st.columns` and `st.metric`.
+# Show metrics side by side using `st.columns` and `st.metric`
 col1, col2, col3 = st.columns(3)
 num_open_tickets = len(st.session_state.df[st.session_state.df.Status == "Unregistered"])
 col1.metric(label="Number of open payrolls", value=num_open_tickets, delta=10)
 col2.metric(label="First response time (hours)", value=5.2, delta=-1.5)
 col3.metric(label="Average resolution time (hours)", value=16, delta=2)
 
-# Show two Altair charts using `st.altair_chart`.
+# Show two Altair charts using `st.altair_chart`
 st.write("")
 st.write("##### Payroll status per month")
 status_plot = (
