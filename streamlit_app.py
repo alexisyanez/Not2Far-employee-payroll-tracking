@@ -30,7 +30,7 @@ if "df" not in st.session_state:
         
     issue_descriptions = names 
 
-    '''
+    """
     [
         "Network connectivity issues in the office",
         "Software application crashing on startup",
@@ -53,7 +53,7 @@ if "df" not in st.session_state:
         "Customer data not loading in CRM",
         "Collaboration tool not sending notifications",
     ]
-    '''
+    """
 
     # Generate the dataframe with 100 rows/tickets.
     data = {
@@ -74,7 +74,7 @@ if "df" not in st.session_state:
 
 
 # Show a section to add a new ticket.
-st.header("Add a employee")
+st.header("Add a employee and worked hours")
 
 # We're adding tickets via an `st.form` and some input widgets. If widgets are used
 # in a form, the app will only rerun once the submit button is pressed.
@@ -83,6 +83,9 @@ with st.form("add_ticket_form"):
     dpto = st.selectbox("Department", ["Production", "Assembly", "Transportation", "Marketing", "Managment"])
     rates = list(range(1,101))
     rate = st.selectbox(" Hour Rate US$", rates)
+    hours = st.selectbox("Worked Hours$", list(range(1,11)))
+
+
     submitted = st.form_submit_button("Submit")
 
 if submitted:
@@ -98,6 +101,7 @@ if submitted:
                 "Status": "Unpaid",
                 "Department": dpto,
                 "Hour Rate": rate,
+                "Total Hours": hours,
                 "Date Submitted": today,
             }
         ]
@@ -107,6 +111,7 @@ if submitted:
     st.write("Employee Submitted submitted! Here are the ticket details:")
     st.dataframe(df_new, use_container_width=True, hide_index=True)
     st.session_state.df = pd.concat([df_new, st.session_state.df], axis=0)
+    df.to_json('archivo.json')
 
 # Show section to view and edit existing tickets in a table.
 st.header("Existing payrolls")
@@ -153,7 +158,7 @@ st.header("Statistics")
 
 # Show metrics side by side using `st.columns` and `st.metric`.
 col1, col2, col3 = st.columns(3)
-num_open_tickets = len(st.session_state.df[st.session_state.df.Status == "Uregistered"])
+num_open_tickets = len(st.session_state.df[st.session_state.df.Status == "Unregistered"])
 col1.metric(label="Number of open payrolls", value=num_open_tickets, delta=10)
 col2.metric(label="First response time (hours)", value=5.2, delta=-1.5)
 col3.metric(label="Average resolution time (hours)", value=16, delta=2)
