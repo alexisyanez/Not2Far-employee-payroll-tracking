@@ -24,7 +24,14 @@ if "df" not in st.session_state:
     np.random.seed(42)
 
     # Make up some fake issue descriptions.
-    issue_descriptions = [
+    names=[]
+    for i in range(0,20):
+        names.append("Employee"+i)
+        
+    issue_descriptions = names 
+    
+    '''
+    [
         "Network connectivity issues in the office",
         "Software application crashing on startup",
         "Printer not responding to print commands",
@@ -46,6 +53,7 @@ if "df" not in st.session_state:
         "Customer data not loading in CRM",
         "Collaboration tool not sending notifications",
     ]
+    '''
 
     # Generate the dataframe with 100 rows/tickets.
     data = {
