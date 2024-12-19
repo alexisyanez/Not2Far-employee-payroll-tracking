@@ -111,7 +111,7 @@ if submitted:
     st.write("Employee Submitted submitted! Here are the ticket details:")
     st.dataframe(df_new, use_container_width=True, hide_index=True)
     st.session_state.df = pd.concat([df_new, st.session_state.df], axis=0)
-    df.to_json('archivo.json')
+    df_new.to_json('archivo.json')
 
 # Show section to view and edit existing tickets in a table.
 st.header("Existing payrolls")
