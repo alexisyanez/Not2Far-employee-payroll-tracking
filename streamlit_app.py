@@ -70,9 +70,8 @@ if "df" not in st.session_state:
         "Date Submitted": [
             datetime.date(2023, 6, 1) + datetime.timedelta(days=random.randint(0, 182))
             for _ in range(5)
-                    "ID": f"Payrrol-{recent_ticket_number+1}",
             ],
-    }
+        }
     df = pd.DataFrame(data)
     # Save the dataframe in session state (a dictionary-like object that persists across
     # page runs). This ensures our data is persisted when the app updates.
