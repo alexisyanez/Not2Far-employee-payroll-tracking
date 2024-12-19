@@ -6,6 +6,9 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
+#df = pd.read_json('Data_base.json')
+#st.session_state.df = df
+
 # Show app title and description.
 st.set_page_config(page_title="Employee Payroll Tracking", page_icon="💵")
 st.title("💵 Employee Payroll Tracking")
@@ -57,13 +60,13 @@ if "df" not in st.session_state:
 
     # Generate the dataframe with 100 rows/tickets.
     data = {
-        "ID": [f"Payroll-{i}" for i in range(1100, 1000, -1)],
-        "Employee": np.random.choice(issue_descriptions, size=100),
-        "Status": np.random.choice(["Unregistered", "In Progress", "Paid"], size=100),
+        "ID": [f"Payroll-{i}" for i in range(1100, 1095, -1)],
+        "Employee": np.random.choice(issue_descriptions, size=5),
+        "Status": np.random.choice(["Unregistered", "In Progress", "Paid"], size=5),
         "Department": np.random.choice(["Production", "Assembly", "Transportation", "Marketing", "Managment"], size=100),
         "Date Submitted": [
             datetime.date(2023, 6, 1) + datetime.timedelta(days=random.randint(0, 182))
-            for _ in range(100)
+            for _ in range(6)
         ],
     }
     df = pd.DataFrame(data)
@@ -71,7 +74,8 @@ if "df" not in st.session_state:
     # Save the dataframe in session state (a dictionary-like object that persists across
     # page runs). This ensures our data is persisted when the app updates.
     st.session_state.df = df
-    df.to_json('Data_base.json')
+    st.session_state.df.to_json('Data_base.json')
+    
 
 
 # Show a section to add a new ticket.
@@ -112,6 +116,8 @@ if submitted:
     st.write("Employee Submitted submitted! Here are the ticket details:")
     st.dataframe(df_new, use_container_width=True, hide_index=True)
     st.session_state.df = pd.concat([df_new, st.session_state.df], axis=0)
+    st.session_state.df.to_json('Data_base.json')
+
     
 
 # Show section to view and edit existing tickets in a table.
