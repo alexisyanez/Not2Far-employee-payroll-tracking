@@ -86,6 +86,9 @@ if submitted:
     st.write("Employee Submitted! Here are the ticket details:")
     st.dataframe(df_new, use_container_width=True, hide_index=True)
     st.session_state.df = pd.concat([df_new, st.session_state.df], axis=0)
+
+    # Ensure the DataFrame index is unique before exporting to JSON
+    st.session_state.df.reset_index(drop=True, inplace=True)
     st.session_state.df.to_json('Data_base.json')
 
 # Show section to view and edit existing tickets in a table
