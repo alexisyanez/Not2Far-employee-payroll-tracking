@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-df = pd.read_json('Data_base.json')
-st.session_state.df = df
+#df = pd.read_json('Data_base.json')
+#st.session_state.df = df
 
 # Show app title and description.
 st.set_page_config(page_title="Employee Payroll Tracking", page_icon="💵")
@@ -21,6 +21,7 @@ st.write(
 )
 
 # Create a random Pandas dataframe with existing tickets.
+'''
 if "df" not in st.session_state:
 
     # Set seed for reproducibility.
@@ -74,7 +75,7 @@ if "df" not in st.session_state:
     # page runs). This ensures our data is persisted when the app updates.
     st.session_state.df = df
     st.session_state.df.to_json('Data_base.json')
-    
+'''
 
 
 # Show a section to add a new ticket.
