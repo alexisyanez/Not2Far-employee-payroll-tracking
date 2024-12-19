@@ -60,17 +60,16 @@ if "df" not in st.session_state:
 
     # Generate the dataframe with 100 rows/tickets.
     data = {
-        "ID": [f"Payroll-{i}" for i in range(1100, 1095, -1)],
-        "Employee": np.random.choice(issue_descriptions, size=5),
-        "Status": np.random.choice(["Unregistered", "In Progress", "Paid"], size=5),
+        "ID": [f"Payroll-{i}" for i in range(1100, 1000, -1)],
+        "Employee": np.random.choice(issue_descriptions, size=100),
+        "Status": np.random.choice(["Unregistered", "In Progress", "Paid"], size=100),
         "Department": np.random.choice(["Production", "Assembly", "Transportation", "Marketing", "Managment"], size=100),
         "Date Submitted": [
             datetime.date(2023, 6, 1) + datetime.timedelta(days=random.randint(0, 182))
-            for _ in range(6)
+            for _ in range(100)
         ],
     }
     df = pd.DataFrame(data)
-
     # Save the dataframe in session state (a dictionary-like object that persists across
     # page runs). This ensures our data is persisted when the app updates.
     st.session_state.df = df
