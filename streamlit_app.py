@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-#df = pd.read_json('Data_base.json')
-#st.session_state.df = df
+df = pd.read_json('Data_base.json')
+st.session_state.df = df
 
 # Show app title and description.
 st.set_page_config(page_title="Employee Payroll Tracking", page_icon="💵")
@@ -32,32 +32,7 @@ if "df" not in st.session_state:
     for i in range(0,20):
         names.append("Employee "+str(i))
         
-    issue_descriptions = names 
-
-    """
-    [
-        "Network connectivity issues in the office",
-        "Software application crashing on startup",
-        "Printer not responding to print commands",
-        "Email server downtime",
-        "Data backup failure",
-        "Login authentication problems",
-        "Website performance degradation",
-        "Security vulnerability identified",
-        "Hardware malfunction in the server room",
-        "Employee unable to access shared files",
-        "Database connection failure",
-        "Mobile application not syncing data",
-        "VoIP phone system issues",
-        "VPN connection problems for remote employees",
-        "System updates causing compatibility issues",
-        "File server running out of storage space",
-        "Intrusion detection system alerts",
-        "Inventory management system errors",
-        "Customer data not loading in CRM",
-        "Collaboration tool not sending notifications",
-    ]
-    """
+    issue_descriptions = names  
 
     # Generate the dataframe with 5 rows/tickets.
     data = {
@@ -90,7 +65,7 @@ with st.form("add_ticket_form"):
     dpto = st.selectbox("Department", ["Production", "Assembly", "Transportation", "Marketing", "Managment"])
     rates = list(range(1,101))
     rate = st.selectbox(" Hour Rate US$", rates)
-    hours = st.selectbox("Worked Hours$", list(range(1,11)))
+    hours = st.selectbox("Worked Hours", list(range(1,11)))
 
 
     submitted = st.form_submit_button("Submit")
