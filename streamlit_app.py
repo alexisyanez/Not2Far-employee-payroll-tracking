@@ -21,7 +21,7 @@ st.write(
 )
 
 # Create a random Pandas dataframe with existing tickets.
-'''
+
 if "df" not in st.session_state:
 
     # Set seed for reproducibility.
@@ -59,15 +59,18 @@ if "df" not in st.session_state:
     ]
     """
 
-    # Generate the dataframe with 100 rows/tickets.
+    # Generate the dataframe with 5 rows/tickets.
     data = {
-        "ID": [f"Payroll-{i}" for i in range(1100, 1000, -1)],
-        "Employee": np.random.choice(issue_descriptions, size=100),
-        "Status": np.random.choice(["Unregistered", "In Progress", "Paid"], size=100),
-        "Department": np.random.choice(["Production", "Assembly", "Transportation", "Marketing", "Managment"], size=100),
+        "ID": [f"Payroll-{i}" for i in range(1100, 1095, -1)],
+        "Employee": np.random.choice(issue_descriptions, size=5),
+        "Status": np.random.choice(["Unregistered", "In Progress", "Paid"], size=5),
+        "Department": np.random.choice(["Production", "Assembly", "Transportation", "Marketing", "Managment"], size=5),
+        "Hour Rate": np.random.choice(["1", "2", "3"], size=5),
+        "Total Hours": np.random.choice(["100", "100", "100"], size=5),
         "Date Submitted": [
             datetime.date(2023, 6, 1) + datetime.timedelta(days=random.randint(0, 182))
-            for _ in range(100)
+            for _ in range(5)
+                        "ID": f"Payrrol-{recent_ticket_number+1}",
         ],
     }
     df = pd.DataFrame(data)
@@ -75,7 +78,7 @@ if "df" not in st.session_state:
     # page runs). This ensures our data is persisted when the app updates.
     st.session_state.df = df
     st.session_state.df.to_json('Data_base.json')
-'''
+    
 
 
 # Show a section to add a new ticket.
