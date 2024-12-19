@@ -132,8 +132,7 @@ edited_df = st.data_editor(
         "Hour Rate": st.column_config.SelectboxColumn(
             "Hour Rate",
             help="Hour Rate",
-            rates = list(range(1,101))
-            options= rates, #["Production", "Assembly", "Transportation", "Marketing", "Managment"],
+            options= list(range(1,101)), #["Production", "Assembly", "Transportation", "Marketing", "Managment"],
             required=True,
         ),
     },
