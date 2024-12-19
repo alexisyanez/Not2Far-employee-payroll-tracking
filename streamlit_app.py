@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-#df = pd.read_json('Data_base.json')
-#st.session_state.df = df
+df = pd.read_json('Data_base.json')
+st.session_state.df = df
 
 # Show app title and description.
 st.set_page_config(page_title="Employee Payroll Tracking", page_icon="💵")
