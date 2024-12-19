@@ -26,10 +26,10 @@ if "df" not in st.session_state:
     # Make up some fake issue descriptions.
     names=[]
     for i in range(0,20):
-        names.append("Employee"+i)
+        names.append("Employee "+str(i))
         
     issue_descriptions = names 
-    
+
     '''
     [
         "Network connectivity issues in the office",
